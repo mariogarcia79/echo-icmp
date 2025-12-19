@@ -234,7 +234,7 @@ main(int argc, char *argv[])
             }
 
             printf("%ld bytes from %s: icmp_seq=%d ttl=%d time=%.3f ms\n",
-                   sizeof(echo_reply.echoMsg),
+                   sizeof(echo_reply),//.echoMsg),
                    inet_ntoa(echo_reply.IPHdr.srcAddr),
                    echo_reply.echoMsg.sequence,
                    echo_reply.IPHdr.ttl,
