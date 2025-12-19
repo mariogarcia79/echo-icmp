@@ -67,22 +67,18 @@ calculateChecksum(void *datagram, size_t len)
     uint32_t sum = 0;
     uint16_t *ptr = datagram;
     
-    // Sumar todas las double word
     while (len > 1) {
         sum += *ptr;
         ptr++;
         len -= 2;
     }
     
-    // Poner byte si es impar
     if (len == 1)
     sum += *((uint8_t *)ptr);
     
-    // Poner acarreos
     while (sum >> 16)
     sum = (sum & 0xFFFF) + (sum >> 16);
     
-    // Complemento a uno
     return ~sum;
 }
 
@@ -210,7 +206,7 @@ main(int argc, char *argv[])
                 sizeof(echo_reply),
                 inet_ntoa(echo_reply.IPHdr.srcAddr),
                 echo_reply.echoMsg.sequence,
-                echo_reply.IPHdr.ttl,
+                echo_reply.echoMsg.icmpHdr.code,
                 rtt
             );
 
@@ -228,11 +224,11 @@ main(int argc, char *argv[])
             );
             break;
         }
-                        
-        echo_req.icmpHdr.checksum = 0;
-        echo_req.icmpHdr.checksum = calculateChecksum(&echo_req, sizeof(echo_req));
         
         echo_req.sequence++; 
+        
+        echo_req.icmpHdr.checksum = 0;
+        echo_req.icmpHdr.checksum = calculateChecksum(&echo_req, sizeof(echo_req));
         
         if (packets_sent < 5)
             sleep(1);
