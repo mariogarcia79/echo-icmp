@@ -157,7 +157,7 @@ main(int argc, char *argv[])
     dst_sockfd.sin_addr = dst_addr;
     dst_sockfd.sin_port = htons(0);
 
-    printf("PING (%s): %ld bytes of data.\n", argv[1], sizeof(echo_req.payload));
+    printf("PING (%s): %lu bytes of data.\n", argv[1], sizeof(echo_req));
 
     /* Enviar 5 mensajes ICMP Echo */
     while (packets_sent < 5) {
